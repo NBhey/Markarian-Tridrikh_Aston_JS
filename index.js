@@ -36,3 +36,19 @@ async function sendOptionsRequest(url) {
   // 3. Вызываем функцию для отправки OPTIONS запроса
   sendOptionsRequest(apiUrlEndpoint);
   
+
+let controller = new AbortController();
+setTimeout(() => controller.abort(), 1);
+
+try {
+  let response = await fetch('https://get.geojs.io/v1/ip/geo.json', {
+    signal: controller.signal
+  });
+  console.log(response)
+} catch(err) {
+  if (err.name == 'AbortError') { // обработать ошибку от вызова abort()
+    console.log("Прервано!",err.name);
+  } else {
+    throw err;
+  }
+}
