@@ -1,54 +1,99 @@
-console.log('Привет, мир!')
+// Задание 1
 
-console.log('Hello,world!')
+// Литеральный
+{
+  const innerObject = {};
+  const middleArray = [1, 2, 3, innerObject];
+  const workingObject = {
+    a: middleArray,
+  };
+  console.log(workingObject);
+}
+//  Функция-конструктор
+{
+  const innerObject = {};
+  const middleArray = [1, 2, 3, innerObject];
 
-console.log('Hello,world!')
-let test
-let test2
+  function WorkingObjectConstructor() {
+    this.a = middleArray;
+  }
 
-console.log('поработал с git rebaase');
+  const workingObject = new WorkingObjectConstructor();
 
-async function sendOptionsRequest(url) {
-    try {
-      const response = await fetch(url, {
-        method: 'OPTIONS' // Указываем метод запроса: OPTIONS
-      });
-  
-      console.log("OPTIONS Request Status:", response.status);
-      console.log("OPTIONS Request Headers:");
-      for (const [name, value] of response.headers.entries()) {
-        console.log(`  ${name}:${value}`);
-      }
-  
-      const text = await response.text();
-      if (text) {
-        console.log("OPTIONS Response Body (usually empty):", text);
-      }
-  
-    } catch (error) {
-      console.error("OPTIONS Request Error:", error);
+  console.log(workingObject);
+}
+// Через класс
+{
+  const innerObject = {};
+  const middleArray = [1, 2, 3, innerObject];
+
+  class WorkingObjectClass {
+    constructor() {
+      this.a = middleArray;
     }
   }
-  
-  // 2. URL для отправки OPTIONS запроса -  https://get.geojs.io/v1/ip/geo.json
-  const apiUrlEndpoint = 'https://get.geojs.io/v1/ip/geo.json';
-  
-  // 3. Вызываем функцию для отправки OPTIONS запроса
-  sendOptionsRequest(apiUrlEndpoint);
-  
 
-let controller = new AbortController();
-setTimeout(() => controller.abort(), 1);
+  const workingObject = new WorkingObjectClass();
 
-try {
-  let response = await fetch('https://get.geojs.io/v1/ip/geo.json', {
-    signal: controller.signal
-  });
-  console.log(response)
-} catch(err) {
-  if (err.name == 'AbortError') { // обработать ошибку от вызова abort()
-    console.log("Прервано!",err.name);
-  } else {
-    throw err;
+  console.log(workingObject);
+}
+//  Метод Object.create
+{
+  const innerObject = {};
+  const middleArray = [1, 2, 3, innerObject];
+
+  const workingObject = Object.create(null);
+  workingObject.a = middleArray;
+
+  console.log(`null`, workingObject);
+}
+
+{
+  const innerObject = {};
+  const middleArray = [1, 2, 3, innerObject];
+
+  const workingObject = Object.create({});
+  workingObject.a = middleArray;
+
+  console.log(`{}`, workingObject);
+}
+// new Object
+{
+  const innerObject = {};
+  const middleArray = [1, 2, 3, innerObject];
+
+  const workingObject = new Object();
+  workingObject.a = middleArray;
+
+  console.log(workingObject);
+}
+
+console.log("------------------Задани 2------------------");
+{
+  const innerObject = { value: 1 };
+  const middleArray = [1, 2, 3, innerObject];
+  const workingObject = {
+    a: middleArray,
+  };
+  // Spread поверхностная копия
+  {
+    const shallowCopyObjectSpread = { ...workingObject };
+
+    console.log("Оригинал:", workingObject);
+    console.log("Поверхностная копия (Spread):", shallowCopyObjectSpread);
+  }
+  // Object.assign поверхностная копия
+  {
+    const shallowCopyObjectAssign = Object.assign({}, workingObject);
+
+    console.log("Оригинал:", workingObject);
+    console.log("Поверхностная копия (Assign):", shallowCopyObjectAssign);
+  }
+  // Parse/stringify глубокая копия
+  {
+    const deepCopyObjectJSON = JSON.parse(JSON.stringify(workingObject));
+
+    console.log("Оригинал:", workingObject);
+    console.log("Глубокая копия (JSON):", deepCopyObjectJSON);
   }
 }
