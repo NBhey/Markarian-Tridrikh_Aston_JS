@@ -155,3 +155,59 @@ console.log("------------------Задани 3------------------");
   console.log(counter);
   console.log(counter()); //0
 }
+
+console.log("------------------Доп задания------------------");
+
+// Задача на замыкание 1:
+{
+  function createIncrement() {
+    let value = 0;
+
+    function increment() {
+      value += 1;
+      console.log(value);
+    }
+
+    const message = `Current value is ${value}`;
+
+    function log() {
+      console.log(message);
+    }
+
+    return [increment, log];
+  }
+
+  const [increment, log] = createIncrement();
+
+  increment(); // 1
+  increment(); // 2
+  increment(); // 3
+
+  log(); //"Current value is 0"        // почему не 3? Потому что при инициализации переменной она запомнила, что value = 0
+}
+// Как должно быть
+{
+  function createIncrement() {
+    let value = 0;
+
+    function increment() {
+      value += 1;
+      console.log(value);
+    }
+
+    function log() {
+      const message = `Current value is ${value}`;
+      console.log(message);
+    }
+
+    return [increment, log];
+  }
+
+  const [increment, log] = createIncrement();
+
+  increment(); // 1
+  increment(); // 2
+  increment(); // 3
+
+  log();//"Current value is 3"
+}
