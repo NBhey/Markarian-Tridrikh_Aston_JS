@@ -211,3 +211,26 @@ console.log("------------------Доп задания------------------");
 
   log();//"Current value is 3"
 }
+// Задача на замыкание 2:
+{
+  
+let group = getGroup();
+
+group[0](); // 10 
+group[5](); // 10 
+// потому что функция запомнила переменную i  
+// и в момент ее вызова она посмотрит на нее, а за счет того что цикл закончил, 
+// там уже будет 10
+function getGroup() {
+  let students = [];
+  let i = 0;
+  while (i < 10) {
+    students[i] = function() {
+      console.log(i);
+    }
+    i++
+  }
+
+  return students;
+}
+}
