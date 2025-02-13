@@ -209,28 +209,47 @@ console.log("------------------Доп задания------------------");
   increment(); // 2
   increment(); // 3
 
-  log();//"Current value is 3"
+  log(); //"Current value is 3"
 }
 // Задача на замыкание 2:
 {
-  
-let group = getGroup();
+  let group = getGroup();
 
-group[0](); // 10 
-group[5](); // 10 
-// потому что функция запомнила переменную i  
-// и в момент ее вызова она посмотрит на нее, а за счет того что цикл закончил, 
-// там уже будет 10
-function getGroup() {
-  let students = [];
-  let i = 0;
-  while (i < 10) {
-    students[i] = function() {
-      console.log(i);
+  group[0](); // 10
+  group[5](); // 10
+  // потому что функция запомнила переменную i
+  // и в момент ее вызова она посмотрит на нее, а за счет того что цикл закончил,
+  // там уже будет 10
+  function getGroup() {
+    let students = [];
+    let i = 0;
+    while (i < 10) {
+      students[i] = function () {
+        console.log(i);
+      };
+      i++;
     }
-    i++
+
+    return students;
+  }
+}
+
+// Задача на замыкание 3:
+
+{
+  var globalVar = "global";
+  var outerVar = "outer";
+
+  function outerFunc(outerParam) {
+    function innerFunc(innerParam) {
+      console.log(globalVar, outerParam, innerParam); // guess,outer,inner
+    }
+    return innerFunc;
   }
 
-  return students;
-}
-}
+  const x = outerFunc(outerVar);
+  console.log(x)
+  outerVar = "outer-2";
+  globalVar = "guess";
+  x("inner");//guess, outer-2, inner
+} 
