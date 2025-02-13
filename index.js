@@ -248,8 +248,8 @@ console.log("------------------Доп задания------------------");
   }
 
   const x = outerFunc(outerVar);
-  console.log(x)
   outerVar = "outer-2";
   globalVar = "guess";
   x("inner");//guess, outer-2, inner
+  // разобрался почему outer будет а не outer-2, ответ оставил неправильным для себя
 } 
