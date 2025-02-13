@@ -97,3 +97,61 @@ console.log("------------------Задани 2------------------");
     console.log("Глубокая копия (JSON):", deepCopyObjectJSON);
   }
 }
+
+console.log("------------------Задани 3------------------");
+// Стрелочная функция
+{
+  const makeCounter = () => {
+    let count = 0;
+    return () => count++;
+  };
+  const counter = makeCounter();
+  console.log(counter);
+  console.log(counter());
+}
+//  Через объект
+{
+  function makeCounter() {
+    return {
+      count: 0,
+      increment() {
+        return this.count++;
+      },
+    };
+  }
+
+  const counter = makeCounter();
+  console.log(counter);
+  console.log(counter.increment());
+}
+//  Через класс
+{
+  class Counter {
+    constructor() {
+      this.count = 0;
+    }
+
+    increment() {
+      return this.count++;
+    }
+  }
+
+  const makeCounter = () => new Counter();
+
+  const counter = makeCounter();
+  console.log(counter);
+  console.log(counter.increment());
+}
+// Замыкание
+{
+  function makeCounter(startFrom = 0) {
+    let count = startFrom;
+    return function () {
+      return count++;
+    };
+  }
+
+  const counter = makeCounter();
+  console.log(counter);
+  console.log(counter()); //0
+}
