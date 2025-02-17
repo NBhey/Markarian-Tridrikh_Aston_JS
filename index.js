@@ -212,3 +212,54 @@ for (let item of arrNum2) {
   }
 }
 console.log(maxNumber2, minNumber2);
+
+
+
+class Stack { 
+  constructor() {
+    this.items = []; 
+  }
+
+  push(item) {  
+    this.items.push(item); 
+  }
+
+  pop() { 
+    if (this.isEmpty()) { 
+      return undefined; 
+    }
+    return this.items.pop();
+  }
+
+  peek() { 
+    if (this.isEmpty()) { 
+      return undefined; 
+    }
+    return this.items[this.items.length - 1]; 
+  }
+
+  isEmpty() { 
+    return this.items.length === 0; 
+  }
+
+  size() { 
+    return this.items.length; 
+  }
+
+  clear() { 
+    this.items = [];
+  }
+}
+
+
+const myStack = new Stack(); 
+
+console.log( myStack.isEmpty()); 
+myStack.push(10); 
+myStack.push(20); 
+myStack.push(30); 
+
+console.log( myStack.peek()); 
+console.log( myStack.pop()); 
+console.log( myStack.peek()); 
+
