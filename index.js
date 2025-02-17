@@ -40,21 +40,35 @@
   newLogger();
 }
 
-
-// 3.1 this: 
-
+// 3.1 this:
 
 const obj = {
-    a: 1,
-    e: (function () {
-        return () => {
-            console.log(this.a);
-        };
-    })(),
+  a: 1,
+  e: (function () {
+    return () => {
+      console.log(this.a);
+    };
+  })(),
 };
 
-obj.e(); // undefined, здесь undefined т.к. в момент вызова самовызывающейся функции возвращает функцию, которая не является методом объекта в момент создания, 
+obj.e(); // undefined, здесь undefined т.к. в момент вызова самовызывающейся функции возвращает функцию, которая не является методом объекта в момент создания,
 // а значит ссылается на глобальный объект window. В глобальном объекте window нет a, следовательно a = undefined, можно было бы исправить это добавив в начале var = a
-// 
+//
 
 obj.e.call({ a: 2 }); // undefined
+
+// 3.2 this:
+{
+  const obj = {
+    child: {
+      i: 10,
+      b: () => console.log(this.i, this),
+      c() {
+        console.log(this.i, this);
+      },
+    },
+  };
+
+  obj.child.b(); // undefined, window
+  obj.child.c(); // 10, child{...}
+}
