@@ -101,3 +101,114 @@ obj.e.call({ a: 2 }); // undefined
   obj2.bar(); //  ? 30
   obj2.baz(); //  ? 20
 }
+
+// 4.1 Создайте массив чисел и найдите его сумму разными способами
+const arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+
+let sum = 0;
+// Споспоб 1
+for (let i = 0; i < arr.length; i += 1) {
+  sum += arr[i];
+}
+console.log(sum);
+sum = 0;
+
+// Способ 2
+sum = arr.reduce((acc, el) => {
+  acc += el;
+  return acc;
+}, sum);
+console.log(sum);
+sum = 0;
+
+// Способ 3
+let count = 0;
+function sumArr(arr) {
+  if (arr[arr.length - 1] === count) {
+    return;
+  }
+
+  sum += arr[count];
+  count++;
+  sumArr(arr);
+}
+sumArr(arr);
+console.log(sum);
+sum = 0;
+
+// Способ 4
+arr.map((el) => (sum += el));
+console.log(sum);
+sum = 0;
+
+// Способ 5
+arr.forEach((el) => (sum += el));
+console.log(sum);
+sum = 0;
+
+// Способ 6
+for (let item of arr) {
+  sum += item;
+}
+console.log(sum);
+
+// 4.1 Массивы: Создайте массив строк и объедините их в одну строку разными способами.
+
+const arrStr = ["1", "привет", "JavaScript", "Webpack"];
+
+let str = "";
+
+for (let i = 0; i < arrStr.length; i += 1) {
+  str += arrStr[i];
+}
+
+console.log(str);
+str = "";
+
+// Способ 2
+str = arrStr.reduce((acc, el) => {
+  str += " ";
+  acc += el;
+  return acc;
+}, str);
+console.log(str);
+str = "";
+
+// Способ 3
+let countStr = 0;
+function sumArrStr(arr) {
+  if (arrStr.length === countStr) {
+    return;
+  }
+
+  str += arrStr[countStr];
+  countStr++;
+  sumArrStr(arr);
+}
+sumArrStr(arrStr);
+console.log(str);
+str = "";
+
+// Способ 4
+arrStr.map((el) => (str += el));
+console.log(str);
+sum = "";
+
+// 4.1 Массивы: Найдите максимальный и минимальный элементы в массиве чисел разными способами.
+
+const arrNum = [1, 2, 4, 442, 67, 89, 2, 4, 5, 6];
+let maxNumber = Math.max(...arrNum);
+let minNumber = Math.min(...arrNum);
+console.log(maxNumber, minNumber);
+
+const arrNum2 = [11, -2, 4, 6742, 671, 89, 2, 4, 5, 6];
+let maxNumber2 = 12;
+let minNumber2 = 12;
+for (let item of arrNum2) {
+  if (item > maxNumber2) {
+    maxNumber2 = item;
+  } else if (item < minNumber2) {
+    minNumber2 = item;
+  }
+}
+console.log(maxNumber2, minNumber2);
