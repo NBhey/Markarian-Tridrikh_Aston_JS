@@ -213,7 +213,7 @@ for (let item of arrNum2) {
 }
 console.log(maxNumber2, minNumber2);
 
-
+// 4.2
 
 class Stack { 
   constructor() {
@@ -262,4 +262,61 @@ myStack.push(30);
 console.log( myStack.peek()); 
 console.log( myStack.pop()); 
 console.log( myStack.peek()); 
+
+// 4.3
+class Queue {
+  constructor() {
+   
+    this.items = [];
+  }
+  enqueue(item) {
+    this.items.push(item);
+  }
+  dequeue() {
+    if (this.isEmpty()) {
+      return undefined;
+    }
+    return this.items.shift();
+  }
+  peek() {
+    if (this.isEmpty()) {
+      return undefined;
+    }
+    return this.items[0];
+  }
+  isEmpty() {
+    return this.items.length === 0;
+  }
+
+  size() {
+    return this.items.length;
+  }
+
+  clear() {
+    this.items = [];
+  }
+}
+
+
+const myQueue = new Queue();
+
+console.log("Очередь пуста?", myQueue.isEmpty()); 
+console.log("Размер очереди:", myQueue.size());   
+console.log("Первый в очереди (peek):", myQueue.peek()); 
+
+myQueue.enqueue(10);
+myQueue.enqueue(20);
+myQueue.enqueue(30);
+
+console.log("Очередь пуста?", myQueue.isEmpty()); 
+console.log("Размер очереди:", myQueue.size());   
+console.log("Первый в очереди (peek):", myQueue.peek()); 
+
+console.log("Исключаем из очереди первого (dequeue):", myQueue.dequeue()); 
+console.log("Размер очереди после dequeue:", myQueue.size());   
+console.log("Первый в очереди (peek) после dequeue:", myQueue.peek()); 
+
+myQueue.clear();
+console.log("Очередь после clear:", myQueue.items); 
+console.log("Очередь пуста после clear?", myQueue.isEmpty()); 
 
