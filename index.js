@@ -75,7 +75,7 @@ var i = new A();
 console.log('Тут i',i) //Пишу для себя. Сделал чтоб посмотреть как свойство  arrFunc будет выглядеть, если бы написал arrFunc(){} то это был бы уже метод и он стал бы прототипом
 i.arrFunc(); //
 
-console.log(i.hasOwnProperty("arrFunc")); //
+console.log(i.hasOwnProperty("arrFunc")); //hasOwnProperty   проверяет, есть ли у объекта i собственное свойство с именем arrFunc.Поскольку arrFunc было добавлена в экземпляр объекта i (а не в прототип), результат будет true.
 // поясните ответ
 
 //  Для себя
