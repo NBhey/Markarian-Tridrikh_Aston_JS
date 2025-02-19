@@ -67,17 +67,32 @@ class A {
   arrFunc = () => {
     console.log(i);
     console.log(this);
-    console.log("wtf", this === i);  //здесь true потому что контект стрелочной функции - это экземпляр класса "A", и по скольку экземпляр класса записан в i, то this ссылается на i
+    console.log("wtf", this === i); //здесь true потому что контект стрелочной функции - это экземпляр класса "A", и по скольку экземпляр класса записан в i, то this ссылается на i
   };
 }
 
 var i = new A();
-console.log('Тут i',i) //Пишу для себя. Сделал чтоб посмотреть как свойство  arrFunc будет выглядеть, если бы написал arrFunc(){} то это был бы уже метод и он стал бы прототипом
+console.log("Тут i", i); //Пишу для себя. Сделал чтоб посмотреть как свойство  arrFunc будет выглядеть, если бы написал arrFunc(){} то это был бы уже метод и он стал бы прототипом
 i.arrFunc(); //
 
 console.log(i.hasOwnProperty("arrFunc")); //hasOwnProperty   проверяет, есть ли у объекта i собственное свойство с именем arrFunc.Поскольку arrFunc было добавлена в экземпляр объекта i (а не в прототип), результат будет true.
 // поясните ответ
 
+// 2) Написать функцию, которая вернет массив с первой парой чисел, сумма которых равна total:
+{
+  let arr = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+  let total = 13;
+  function searchTotal(arr, total) {
+    for (let i = 0; i <= arr.length; i += 1) {
+      for (let j = 1; j <= arr.length; j += 1) {
+        if (arr[i] + arr[j] === total) {
+          return [arr[i], arr[j]];
+        }
+      }
+    }
+  }
+  console.log(`Бонус задание 2`, searchTotal(arr, total));
+}
 //  Для себя
 const testObj = {
   a: 1,
@@ -90,7 +105,7 @@ testObj.c.b();
 const testObj2 = {
   a: 1,
   c: {
-    a: 'Ne test',
+    a: "Ne test",
     b: function () {
       console.log(`Я testObj2, со мной тут ${this.a}`, this);
     },
