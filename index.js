@@ -113,7 +113,7 @@ console.log("--------------------------------------------------------------");
   const total = 13;
   console.log(findPairWithSum(arr, total));
   //Шаги:
-  // num = 1:
+  // num = 1;
 
   // complement = 13 - 1 = 12.
 
