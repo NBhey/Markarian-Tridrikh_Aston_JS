@@ -1,8 +1,25 @@
+
 // Задание 1
 
 function Hamster() {
   this.food = []; // пустой "живот"
 }
+
+
+// Задание 1. Написать ответ - почему массивы в JS являются "неправильными" и совмещают в себе несколько структур данных? Какие ?
+// Массивы в JavaScript часто называют "неправильными" из-за того, что они отличаются от классических массивов в других языках программирования и фактически сочетают в себе свойства нескольких структур данных.
+// Почему "неправильные"?
+// Традиционные массивы (например, в C, C++, Java) обычно обладают следующими характеристиками:
+// 1) Фиксированный размер: Размер задается при создании и не меняется.
+// 2) Однородные типы:  Содержат элементы только одного типа данных.
+// 3) Непрерывное хранение в памяти: Элементы расположены в памяти последовательно.
+
+
+// Задание 1
+
+
+// Задание 2. Привязать контекст к функции logger()
+
 
 Hamster.prototype.found = function (something) {
   this.food.push(something);
@@ -211,4 +228,132 @@ class testClass {
 }
 let testClassVariable = new testClass("Иван", "Иванов");
 
+
 testClassVariable.test();
+
+
+const myQueue = new Queue();
+
+console.log("Очередь пуста?", myQueue.isEmpty()); 
+console.log("Размер очереди:", myQueue.size());   
+console.log("Первый в очереди (peek):", myQueue.peek()); 
+
+myQueue.enqueue(10);
+myQueue.enqueue(20);
+myQueue.enqueue(30);
+
+console.log("Очередь пуста?", myQueue.isEmpty()); 
+console.log("Размер очереди:", myQueue.size());   
+console.log("Первый в очереди (peek):", myQueue.peek()); 
+
+console.log("Исключаем из очереди первого (dequeue):", myQueue.dequeue()); 
+console.log("Размер очереди после dequeue:", myQueue.size());   
+console.log("Первый в очереди (peek) после dequeue:", myQueue.peek()); 
+
+myQueue.clear();
+console.log("Очередь после clear:", myQueue.items); 
+console.log("Очередь пуста после clear?", myQueue.isEmpty()); 
+
+
+  const x = outerFunc(outerVar);
+  outerVar = "outer-2";
+  globalVar = "guess";
+  x("inner");//guess, outer-2, inner
+  // разобрался почему outer будет а не outer-2, ответ оставил неправильным для себя
+} 
+
+// Задание 5
+const str = "Hello";
+const str2 = "Hi";
+const str3 = `Bonjur`;
+const str4 = String("Привет");
+
+const num = 5;
+const num2 = Number(1);
+
+const bool = true;
+const bool2 = !!5;
+const bool3 = !!0;
+const bool4 = Boolean(0);
+
+const null1 = null;
+
+const undefined1 = undefined;
+
+const bigInt = 1234567890123456789012345678901234567890n
+
+const symbol1 = Symbol("id")
+
+// Задание 6
+console.log("B" + "a" + (1 - "hello")); // "BaNaN"
+console.log((true && 3) + "d"); // "3d"
+console.log(Boolean(true && 3) + "d"); // "trued"
+console.log(NaN + 1); // NaN
+console.log(NaN + "o"); // "NaNo"
+console.log(undefined + 1); // NaN
+console.log(undefined - 1); // NaN
+console.log(null + 1); // 1
+console.log(null / 5); // 0
+console.log(5 / undefined); // NaN
+console.log(-5 / null); // -Infinity
+console.log(null == 0); // false
+console.log(null == ""); // false
+console.log(null > 0); // false
+console.log(null >= 0); // true
+console.log(null == ""); //
+console.log("foo" + +"bar"); // "fooNaN"
+console.log("11" + "1" - 1); // 110
+console.log(typeof Object); // 'function'
+console.log(typeof Math); // 'object'
+console.log(new String("foo") == "foo"); // true
+console.log(new String("foo") === "foo"); // false
+
+console.log('поработал с git rebaase');
+
+async function sendOptionsRequest(url) {
+    try {
+      const response = await fetch(url, {
+        method: 'OPTIONS' // Указываем метод запроса: OPTIONS
+      });
+  
+      console.log("OPTIONS Request Status:", response.status);
+      console.log("OPTIONS Request Headers:");
+      for (const [name, value] of response.headers.entries()) {
+        console.log(`  ${name}:${value}`);
+      }
+  
+      const text = await response.text();
+      if (text) {
+        console.log("OPTIONS Response Body (usually empty):", text);
+      }
+  
+    } catch (error) {
+      console.error("OPTIONS Request Error:", error);
+    }
+  }
+  
+  // 2. URL для отправки OPTIONS запроса -  https://get.geojs.io/v1/ip/geo.json
+  const apiUrlEndpoint = 'https://get.geojs.io/v1/ip/geo.json';
+  
+  // 3. Вызываем функцию для отправки OPTIONS запроса
+  sendOptionsRequest(apiUrlEndpoint);
+  
+
+let controller = new AbortController();
+setTimeout(() => controller.abort(), 1);
+
+try {
+  let response = await fetch('https://get.geojs.io/v1/ip/geo.json', {
+    signal: controller.signal
+  });
+  console.log(response)
+} catch(err) {
+  if (err.name == 'AbortError') { // обработать ошибку от вызова abort()
+    console.log("Прервано!",err.name);
+  } else {
+    throw err;
+  }
+}
+
+
+
