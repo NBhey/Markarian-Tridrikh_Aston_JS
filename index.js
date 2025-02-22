@@ -1,4 +1,11 @@
 
+// Задание 1
+
+function Hamster() {
+  this.food = []; // пустой "живот"
+}
+
+
 // Задание 1. Написать ответ - почему массивы в JS являются "неправильными" и совмещают в себе несколько структур данных? Какие ?
 // Массивы в JavaScript часто называют "неправильными" из-за того, что они отличаются от классических массивов в других языках программирования и фактически сочетают в себе свойства нескольких структур данных.
 // Почему "неправильные"?
@@ -13,294 +20,216 @@
 
 // Задание 2. Привязать контекст к функции logger()
 
-//Call
-{
-  function logger() {
-    console.log(`output only external context: ${this.item}`);
-  }
 
-  const obj = { item: "some value" };
-
-  logger.call(obj);
-}
-// Apply
-{
-  function logger() {
-    console.log(`output only external context: ${this.item}`);
-  }
-
-  const obj = { item: "some value" };
-
-  logger.apply(obj);
-}
-
-{
-  function logger() {
-    console.log(`output only external context: ${this.item}`);
-  }
-
-  const obj = { item: "some value" };
-
-  const newLogger = logger.bind(obj);
-  newLogger();
-}
-
-// 3.1 this:
-
-const obj = {
-  a: 1,
-  e: (function () {
-    return () => {
-      console.log(this.a);
-    };
-  })(),
+Hamster.prototype.found = function (something) {
+  this.food.push(something);
 };
 
-obj.e(); // undefined, здесь undefined т.к. в момент вызова самовызывающейся функции возвращает функцию, которая не является методом объекта в момент создания,
-// а значит ссылается на глобальный объект window. В глобальном объекте window нет a, следовательно a = undefined, можно было бы исправить это добавив в начале var = a
-//
+// Создаём двух хомяков и кормим первого
+speedy = new Hamster();
+lazy = new Hamster();
 
-obj.e.call({ a: 2 }); // undefined
+speedy.found("яблоко");
+speedy.found("орех");
 
-// 3.2 this:
+console.log(speedy.food.length); // 2
+console.log(lazy.food.length); // 2 (!??) // должно быть 0
+
+// Задание 2
+
 {
+  class Animal {
+    constructor(name) {
+      this.name = name;
+    }
+  }
+
+  class Rabbit extends Animal {
+    constructor(name) {
+      super(name);
+      this.created = Date.now();
+    }
+  }
+
+  let rabbit = new Rabbit("Белый кролик"); // Error: this is not defined
+  console.log(rabbit.name);
+
+  // в чем ошибка? как исправить? Можно делать что угодно.
+}
+
+{
+  class Animal {
+    constructor(name) {
+      this.name = name;
+    }
+  }
+
+  class Rabbit extends Animal {
+    constructor(name) {
+      super(name);
+      this.created = Date.now();
+    }
+    showAnimal() {
+      console.log("Это " + this.name);
+    }
+  }
+  let rabbit = new Rabbit("Белый кролик");
+  rabbit.showAnimal();
+}
+
+//  Задание 3
+class A {
+  constructor() {}
+
+  arrFunc = () => {
+    console.log(i);
+    console.log(this);
+    console.log("wtf", this === i); //здесь true потому что контект стрелочной функции - это экземпляр класса "A", и по скольку экземпляр класса записан в i, то this ссылается на i
+  };
+}
+
+var i = new A();
+console.log("Тут i", i); //Пишу для себя. Сделал чтоб посмотреть как свойство  arrFunc будет выглядеть, если бы написал arrFunc(){} то это был бы уже метод и он стал бы прототипом
+i.arrFunc(); //
+
+console.log(i.hasOwnProperty("arrFunc")); //hasOwnProperty   проверяет, есть ли у объекта i собственное свойство с именем arrFunc.Поскольку arrFunc было добавлена в экземпляр объекта i (а не в прототип), результат будет true.
+// поясните ответ
+
+// 2) Написать функцию, которая вернет массив с первой парой чисел, сумма которых равна total:
+{
+  let arr = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+  let total = 13;
+  function searchTotal(arr, total) {
+    for (let i = 0; i <= arr.length; i += 1) {
+      for (let j = 1; j <= arr.length; j += 1) {
+        if (arr[i] + arr[j] === total) {
+          return [arr[i], arr[j]];
+        }
+      }
+    }
+  }
+  console.log(`Бонус задание 2`, searchTotal(arr, total));
+}
+//  Второй способ решения через хеш-таблицу
+console.log("--------------------------------------------------------------");
+{
+  function findPairWithSum(arr, total) {
+    const set = new Set(); // создаем особый вид коллекции для того чтобы хранить уже просмотренные числа,
+    for (let num of arr) {
+      console.log(`Я ${num}`, set);
+      const result = total - num; //Вычисляю какое число нужно добавить к текущему чтобы получать тотал
+      if (set.has(result)) {
+        // если в коллекции есть это число то добавь его и верни num и result
+        return [result, num];
+      }
+      set.add(num); // иначе добавь это число в коллекцию
+    }
+    return [];
+  }
+  const arr = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+  const total = 13;
+  console.log(findPairWithSum(arr, total));
+  //Шаги:
+  // num = 1;
+
+  // complement = 13 - 1 = 12.
+
+  // 12 нет в Set. Добавляем 1 в Set: Set {1}.
+
+  // num = 2:
+
+  // complement = 13 - 2 = 11.
+
+  // 11 нет в Set. Добавляем 2 в Set: Set {1, 2}.
+
+  // num = 3:
+
+  // complement = 13 - 3 = 10.
+
+  // 10 нет в Set. Добавляем 3 в Set: Set {1, 2, 3}.
+
+  // num = 4:
+
+  // complement = 13 - 4 = 9.
+
+  // 9 нет в Set. Добавляем 4 в Set: Set {1, 2, 3, 4}.
+
+  // num = 5:
+
+  // complement = 13 - 5 = 8.
+
+  // 8 нет в Set. Добавляем 5 в Set: Set {1, 2, 3, 4, 5}.
+
+  // num = 6:
+
+  // complement = 13 - 6 = 7.
+
+  // 7 нет в Set. Добавляем 6 в Set: Set {1, 2, 3, 4, 5, 6}.
+
+  // num = 7:
+
+  // complement = 13 - 7 = 6.
+
+  // 6 есть в Set! Возвращаем пару [6, 7].
+}
+console.log("--------------------------------------------------------------");
+//  Для себя
+const testObj = {
+  a: 1,
+  c: {
+    b: () => console.log("Я testObj", this),
+  },
+};
+testObj.c.b();
+
+const testObj2 = {
+  a: 1,
+  c: {
+    a: "Ne test",
+    b: function () {
+      console.log(`Я testObj2, со мной тут ${this.a}`, this);
+    },
+  },
+};
+testObj2.c.b();
+
+function test() {
+  console.log("я test", this);
+}
+test();
+
+function test2() {
   const obj = {
-    child: {
-      i: 10,
-      b: () => console.log(this.i, this),
-      c() {
-        console.log(this.i, this);
-      },
+    a: () => {
+      console.log("я test2", this);
     },
   };
-
-  obj.child.b(); // undefined, window
-  obj.child.c(); // 10, child{...}
+  return obj.a();
 }
-//  3.3 this:
-{
-  function foo() {
-    const x = 10;
-    return {
-      x: 20,
-      bar: () => {
-        console.log(this.x);
-      },
-      baz: function () {
-        console.log(this.x);
-      },
-    };
+test2();
+
+function test3() {
+  const obj = {
+    a: function () {
+      console.log("я test3", this);
+    },
+  };
+  return obj.a();
+}
+test3();
+
+class testClass {
+  constructor(name, surname) {
+    (this.name = name), (this.surname = surname);
   }
-
-  const obj1 = foo();
-  obj1.bar(); // ? undefined
-  obj1.baz(); // ? 20
-
-  const obj2 = foo.call({ x: 30 });
-
-  let y = obj2.bar;
-  let z = obj2.baz;
-  y(); // ? 30
-  z(); // ? undefined
-
-  obj2.bar(); //  ? 30
-  obj2.baz(); //  ? 20
-}
-
-// 4.1 Создайте массив чисел и найдите его сумму разными способами
-const arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-
-let sum = 0;
-// Споспоб 1
-for (let i = 0; i < arr.length; i += 1) {
-  sum += arr[i];
-}
-console.log(sum);
-sum = 0;
-
-// Способ 2
-sum = arr.reduce((acc, el) => {
-  acc += el;
-  return acc;
-}, sum);
-console.log(sum);
-sum = 0;
-
-// Способ 3
-let count = 0;
-function sumArr(arr) {
-  if (arr[arr.length - 1] === count) {
-    return;
-  }
-
-  sum += arr[count];
-  count++;
-  sumArr(arr);
-}
-sumArr(arr);
-console.log(sum);
-sum = 0;
-
-// Способ 4
-arr.map((el) => (sum += el));
-console.log(sum);
-sum = 0;
-
-// Способ 5
-arr.forEach((el) => (sum += el));
-console.log(sum);
-sum = 0;
-
-// Способ 6
-for (let item of arr) {
-  sum += item;
-}
-console.log(sum);
-
-// 4.1 Массивы: Создайте массив строк и объедините их в одну строку разными способами.
-
-const arrStr = ["1", "привет", "JavaScript", "Webpack"];
-
-let str = "";
-
-for (let i = 0; i < arrStr.length; i += 1) {
-  str += arrStr[i];
-}
-
-console.log(str);
-str = "";
-
-// Способ 2
-str = arrStr.reduce((acc, el) => {
-  str += " ";
-  acc += el;
-  return acc;
-}, str);
-console.log(str);
-str = "";
-
-// Способ 3
-let countStr = 0;
-function sumArrStr(arr) {
-  if (arrStr.length === countStr) {
-    return;
-  }
-
-  str += arrStr[countStr];
-  countStr++;
-  sumArrStr(arr);
-}
-sumArrStr(arrStr);
-console.log(str);
-str = "";
-
-// Способ 4
-arrStr.map((el) => (str += el));
-console.log(str);
-sum = "";
-
-// 4.1 Массивы: Найдите максимальный и минимальный элементы в массиве чисел разными способами.
-
-const arrNum = [1, 2, 4, 442, 67, 89, 2, 4, 5, 6];
-let maxNumber = Math.max(...arrNum);
-let minNumber = Math.min(...arrNum);
-console.log(maxNumber, minNumber);
-
-const arrNum2 = [11, -2, 4, 6742, 671, 89, 2, 4, 5, 6];
-let maxNumber2 = 12;
-let minNumber2 = 12;
-for (let item of arrNum2) {
-  if (item > maxNumber2) {
-    maxNumber2 = item;
-  } else if (item < minNumber2) {
-    minNumber2 = item;
+  test() {
+    console.log("я testClass", this);
   }
 }
-console.log(maxNumber2, minNumber2);
-
-// 4.2
-
-class Stack { 
-  constructor() {
-    this.items = []; 
-  }
-
-  push(item) {  
-    this.items.push(item); 
-  }
-
-  pop() { 
-    if (this.isEmpty()) { 
-      return undefined; 
-    }
-    return this.items.pop();
-  }
-
-  peek() { 
-    if (this.isEmpty()) { 
-      return undefined; 
-    }
-    return this.items[this.items.length - 1]; 
-  }
-
-  isEmpty() { 
-    return this.items.length === 0; 
-  }
-
-  size() { 
-    return this.items.length; 
-  }
-
-  clear() { 
-    this.items = [];
-  }
-}
+let testClassVariable = new testClass("Иван", "Иванов");
 
 
-const myStack = new Stack(); 
-
-console.log( myStack.isEmpty()); 
-myStack.push(10); 
-myStack.push(20); 
-myStack.push(30); 
-
-console.log( myStack.peek()); 
-console.log( myStack.pop()); 
-console.log( myStack.peek()); 
-
-// 4.3
-class Queue {
-  constructor() {
-   
-    this.items = [];
-  }
-  enqueue(item) {
-    this.items.push(item);
-  }
-  dequeue() {
-    if (this.isEmpty()) {
-      return undefined;
-    }
-    return this.items.shift();
-  }
-  peek() {
-    if (this.isEmpty()) {
-      return undefined;
-    }
-    return this.items[0];
-  }
-  isEmpty() {
-    return this.items.length === 0;
-  }
-
-  size() {
-    return this.items.length;
-  }
-
-  clear() {
-    this.items = [];
-  }
-}
+testClassVariable.test();
 
 
 const myQueue = new Queue();
@@ -425,5 +354,6 @@ try {
     throw err;
   }
 }
+
 
 
