@@ -67,8 +67,30 @@ console.log(a);
 //5, 5, 5, 15
 
 
+//Bonus Task Необходимо реализовать функцию fetchUrl. Принимает url, запрашивает данные, если всё ок, возвращает промис с данными, если нет, 
+// то пытается снова и выкидывает промис с ошибкой только после 5 попыток.
 
+async function fetchUrl(url, retries = 5, count = 0) {
+  try {
+      const response = await fetch(url);
+      const data = await response.json();
+      return data; // Возвращаем данные, если запрос успешен
+  } catch (error) {
+      if (count >= retries - 1) {
+          throw error; // Если попытки закончились, выбрасываем ошибку
+      }
+      console.warn(`Attempt ${count + 1} failed. Retrying...`);
+      return fetchUrl(url, retries, count + 1); // Рекурсивный вызов
+  }
+}
 
+fetchUrl('https://get.geojs.io/v1/ip/geo.json')
+    .then(data => console.log('Data:', data))
+    .catch(error => console.error('Error:', error));
+
+fetchUrl('https://example.com')
+    .then(data => console.log('Data:', data))
+    .catch(error => console.error('Error:', error));
 
 
 
