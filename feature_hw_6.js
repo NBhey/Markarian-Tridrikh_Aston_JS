@@ -78,17 +78,19 @@ console.log(a);
 
 //Bonus Task Необходимо реализовать функцию fetchUrl. Принимает url, запрашивает данные, если всё ок, возвращает промис с данными, если нет,
 // то пытается снова и выкидывает промис с ошибкой только после 5 попыток.
-
-async function fetchUrl(url, retries = 5, count = 0) {
+let countForFetchUrl = 0; 
+async function fetchUrl(url) {
+  const retries = 5;
   try {
     const response = await fetch(url);
-    if (response.ok) return response.json();
+    if (response.ok) return await response.json();
   } catch (err) {
-    if(retries == count){
+    if(retries == countForFetchUrl){
       throw err
     } else {
-      console.warn(`Запрос не удался, попытка ${count}`,err)
-      return fetchUrl(url, retries = 5, count += 1)
+      console.warn(`Запрос не удался, попытка ${countForFetchUrl}`,err)
+      countForFetchUrl +=1
+      return fetchUrl(url)
     }
   }
 }
