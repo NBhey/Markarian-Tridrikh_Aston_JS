@@ -59,3 +59,19 @@ Promise.resolve(1)
     console.log(val); // undefined
   });
 
+// 3
+{
+  function F() {
+    this.a = 1
+  }
+  
+  const x = {method:function(){console.log('a1')}}
+  
+  F.prototype =  x;//что тут происходит? зачем? prototype это св-во функции-конструктора получается, что в прототипе функции передали ссылку на объект 
+  
+  const a = new F(); // создали объект с помощью функции-конструктор, у которой в прототипе x
+  a.method()
+  console.log(a.__proto__,a,typeof a) 
+  console.log(x) 
+  console.log(a.__proto__ === x) // true, ну и соотвественно ссылка на один и тот же объекь, он равен сам себе 
+} 
