@@ -73,5 +73,38 @@ Promise.resolve(1)
   a.method()
   console.log(a.__proto__,a,typeof a) 
   console.log(x) 
-  console.log(a.__proto__ === x) // true, ну и соотвественно ссылка на один и тот же объекь, он равен сам себе 
+  console.log(a.__proto__ === x) // true, ну и соотвественно ссылка на один и тот же объект, он равен сам себе 
 } 
+// 5 
+{
+  const user = {
+    name: 'Bob',
+    funcFunc() {
+      return function() {
+        console.log(1,this);
+      }
+    },
+    funcArrow() {
+      return () => {
+        console.log(2,this);
+      }
+    },
+    arrowFunc: () => {
+      return function() {
+        console.log(3,this);
+      }
+    },
+    arrowArrow: () => {
+      return () => {
+        console.log(4,this);
+      }
+    },
+  };
+  
+  user.funcFunc()(); // ?
+  user.funcArrow()(); // ?
+  user.arrowFunc()(); // ?
+  user.arrowArrow()(); // ?
+  
+  
+}
