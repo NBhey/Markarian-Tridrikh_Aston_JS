@@ -31,7 +31,7 @@ for (let i = 0; i < 3; i++) {
 Promise.resolve(1)
   .then((val) => {
     console.log(val); // 1
-    return val + 1; 
+    return val + 1;
   })
   .then((val /* пришла 2 из предыдущего then*/) => {
     console.log(val); // 2
@@ -42,7 +42,9 @@ Promise.resolve(1)
       console.log(val); // 3
     });
   })
-  .then((val /*предыдущий then возвращает промис, который возвращает undefined */
+  .then(
+    (
+      val /*предыдущий then возвращает промис, который возвращает undefined */
     ) => {
       console.log(val); // undefined
       return Promise.reject(4);
@@ -62,49 +64,62 @@ Promise.resolve(1)
 // 3
 {
   function F() {
-    this.a = 1
+    this.a = 1;
   }
-  
-  const x = {method:function(){console.log('a1')}}
-  
-  F.prototype =  x;//что тут происходит? зачем? prototype это св-во функции-конструктора получается, что в прототипе функции передали ссылку на объект 
-  
+
+  const x = {
+    method: function () {
+      console.log("a1");
+    },
+  };
+
+  F.prototype = x; //что тут происходит? зачем? prototype это св-во функции-конструктора получается, что в прототипе функции передали ссылку на объект
+
   const a = new F(); // создали объект с помощью функции-конструктор, у которой в прототипе x
-  a.method()
-  console.log(a.__proto__,a,typeof a) 
-  console.log(x) 
-  console.log(a.__proto__ === x) // true, ну и соотвественно ссылка на один и тот же объект, он равен сам себе 
-} 
-// 5 
+  a.method();
+  console.log(a.__proto__, a, typeof a);
+  console.log(x);
+  console.log(a.__proto__ === x); // true, ну и соотвественно ссылка на один и тот же объект, он равен сам себе
+}
+// 4
 {
   const user = {
-    name: 'Bob',
+    name: "Bob",
     funcFunc() {
-      return function() {
-        console.log(1,this);
-      }
+      return function () {
+        console.log(1, this);
+      };
     },
     funcArrow() {
       return () => {
-        console.log(2,this);
-      }
+        console.log(2, this);
+      };
     },
     arrowFunc: () => {
-      return function() {
-        console.log(3,this);
-      }
+      return function () {
+        console.log(3, this);
+      };
     },
     arrowArrow: () => {
       return () => {
-        console.log(4,this);
-      }
+        console.log(4, this);
+      };
     },
   };
-  
-  user.funcFunc()(); // ?
-  user.funcArrow()(); // ?
-  user.arrowFunc()(); // ?
-  user.arrowArrow()(); // ?
-  
-  
+
+  user.funcFunc()(); // ?1 window
+  user.funcArrow()(); // ? 2 {}
+  user.arrowFunc()(); // ? 3 window
+  user.arrowArrow()(); // ? 4 window
+
+  var a = 1;
+  var b = 2;
+// 5
+  (function () {
+    var b = 3;
+    a += b;
+  })();
+
+  console.log('Задание 5',a); //?4
+  console.log('Задание 5',b); //?2
 }
