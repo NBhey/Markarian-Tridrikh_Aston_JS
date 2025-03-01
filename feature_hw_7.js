@@ -9,9 +9,41 @@ Array.prototype.mySome = function (callback, thisArg) {
 
 const arr = [1, 2, 3, 4, 5];
 const hasEven = arr.mySome((num) => num % 2 === 0);
-console.log(hasEven);
+console.log("HasEven",hasEven);
 
-// 1
+{
+  Array.prototype.myMap = function (callback, thisArg) {
+    console.log("thisArg 1", thisArg);
+    const result = [];
+    for (let i = 0; i < this.length; i++) {
+      result.push(callback.call(thisArg, this[i], i, this));
+    }
+    return result;
+  };
+
+  const arr = [1, 2, 3, 4, 5];
+  const doubled = arr.myMap((num) => num * 2);
+  console.log("MyMap",doubled);
+}
+
+{
+  Array.prototype.myReduce = function (callback, initialValue) {
+    let accumulator = initialValue !== undefined ? initialValue : this[0];
+    let startIndex = initialValue !== undefined ? 0 : 1;
+
+    for (let i = startIndex; i < this.length; i++) {
+      accumulator = callback(accumulator, this[i], i, this);
+    }
+
+    return accumulator;
+  };
+
+  // Пример использования:
+  const arr = [1, 2, 3, 4, 5];
+  const sum = arr.myReduce((acc, num) => acc + num, 0);
+  console.log("myReduce",sum); // 15
+}
+// // 1
 
 for (var i = 0; i < 3; i++) {
   setTimeout(() => console.log(i), 1); // 3 3 3
@@ -20,14 +52,14 @@ for (var i = 0; i < 3; i++) {
 for (let i = 0; i < 3; i++) {
   setTimeout(() => console.log(i), 1); // 0 1 2
 }
-// что в консоли и в каком порядке?
+// // что в консоли и в каком порядке?
 
-//Сперва отработает первый цикл. Из-за того, что var имеет функциональную область видимости, он находится в пределах всей функции. И когда выполнится колбэк в setTimeout то значение i сошлется на 3, т.к.
-// цикл уже выполнился и i = 3
+// //Сперва отработает первый цикл. Из-за того, что var имеет функциональную область видимости, он находится в пределах всей функции. И когда выполнится колбэк в setTimeout то значение i сошлется на 3, т.к.
+// // цикл уже выполнился и i = 3
 
-// Затем выполнится второй цикл. i объявлена с помощью let (имеет блочную область видимости), соотвественно она существует в блоке, соответственно каждый колбэк вызов сошлется на свою собственную i в блоке
+// // Затем выполнится второй цикл. i объявлена с помощью let (имеет блочную область видимости), соотвественно она существует в блоке, соответственно каждый колбэк вызов сошлется на свою собственную i в блоке
 
-// 2 что в консоли и в каком порядке?
+// // 2 что в консоли и в каком порядке?
 Promise.resolve(1)
   .then((val) => {
     console.log(val); // 1
@@ -81,7 +113,7 @@ Promise.resolve(1)
   console.log(x);
   console.log(a.__proto__ === x); // true, ну и соотвественно ссылка на один и тот же объект, он равен сам себе
 }
-// 4
+// // 4
 {
   const user = {
     name: "Bob",
@@ -114,12 +146,12 @@ Promise.resolve(1)
 
   var a = 1;
   var b = 2;
-// 5
+  // // 5
   (function () {
     var b = 3;
     a += b;
   })();
 
-  console.log('Задание 5',a); //?4
-  console.log('Задание 5',b); //?2
+  console.log("Задание 5", a); //?4
+  console.log("Задание 5", b); //?2
 }
